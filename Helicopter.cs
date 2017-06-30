@@ -3,29 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Helicopter : MonoBehaviour {
-    public AudioClip heliAudio;
+    public float heliSpeed = 50f;
 
-    private AudioSource audioSource;
+    private Rigidbody rigidBody;
     private bool called = false;
 
     // Use this for initialization
     void Start () {
-        audioSource = GetComponent<AudioSource>( );
+        rigidBody = GetComponent<Rigidbody>( );
     }
 	
-	// Update is called once per frame
-	void Update () {
-
-        if (Input.GetButtonDown("CallHeli") && !called)
-        {
-            called = true;
-            CallHeli( );
-        }
-    }
-
-    void CallHeli( )
+    public void OnDispatchHelicopter( )
     {
-        audioSource.clip = heliAudio;
-        audioSource.Play( );
+        called = true;
+        rigidBody.velocity = new Vector3(0, 0, heliSpeed);
     }
 }
