@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     public GameObject playerSpawn;
+    public GameObject landingArea;
+    public GameObject heliCamera;
 
     private Transform[] spawns;
     private Vector3 randomSpawn;
@@ -18,6 +20,11 @@ public class Player : MonoBehaviour {
         if (lastRespawnToggle == true)
         {
             Respawn( );
+        }
+
+        if (GameManager.gameWon == true)
+        {
+            heliCamera.SetActive(true);
         }
     }
 
@@ -35,6 +42,6 @@ public class Player : MonoBehaviour {
 
     void DropFlare( )
     {
-        //drop flare
+        Instantiate(landingArea, (transform.position + new Vector3 (0,450,0)), transform.rotation);
     }
 }
