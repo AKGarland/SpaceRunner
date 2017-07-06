@@ -8,16 +8,19 @@ public class Player : MonoBehaviour {
     public GameObject landingArea;
     public Transform gunBarrel;  // The gun barrel is an empty object positioned at the tip of the weapon object so only the transform is required
     public GameObject projectile;  // Prefab of the laser itself to instantiate later
+    public float health = 200;
 
-    private float projectileSpeed = 5000f;
+    private float projectileSpeed = 10000f;
     private float firingRate = 0.2f;
-    private float health = 200;
     private Transform[] spawns;
+    private GameManager gameManager;
     private Vector3 randomSpawn;
     private bool lastRespawnToggle = false;
 
     void Start () {
         spawns = playerSpawn.GetComponentsInChildren<Transform>( );
+        gameManager = FindObjectOfType<GameManager>( );
+        gameManager.timeOfLatestSpawn = Time.time;
     }
 	
 	void Update () {
@@ -45,6 +48,7 @@ public class Player : MonoBehaviour {
     {
         randomSpawn = spawns[Random.Range(1, (spawns.Length))].transform.position;
         transform.position = randomSpawn;
+        gameManager.timeOfLatestSpawn = Time.time;
         lastRespawnToggle = false;
     }
 

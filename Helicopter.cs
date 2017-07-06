@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class Helicopter : MonoBehaviour {
     public float heliSpeed = 50f;
+    public bool called = false;
 
     private GameObject landingArea;
     private Rigidbody rigidBody;
-    private bool called = false;
     private Transform destinationTransform;
     private bool arrived = false;
+    private GameManager gameManager;
 
     // Use this for initialization
     void Start ()
     {
         rigidBody = GetComponent<Rigidbody>( );
+        gameManager = FindObjectOfType<GameManager>( );
     }
 
     private void Update( )
@@ -25,9 +27,9 @@ public class Helicopter : MonoBehaviour {
             {
                 rigidBody.velocity = new Vector3(0, 0, 0);
                 rigidBody.AddForce(Vector3.down*750f, ForceMode.Acceleration);
-                if (transform.position.y <= 70)
+                if (transform.position.y <= 55)
                 {
-                    rigidBody.velocity = new Vector3(0, 0, 0);
+                    rigidBody.isKinematic = true;
                 }
             }
         }
@@ -48,6 +50,7 @@ public class Helicopter : MonoBehaviour {
         {
             landingArea = GameObject.FindGameObjectWithTag("LandingArea");
             SetDestination(landingArea.transform, 0, heliSpeed);
+            gameManager.timeHeliCalled = Time.time;
             print(landingArea.transform.position + " landingArea position.");
             called = true;
         }
@@ -61,6 +64,7 @@ public class Helicopter : MonoBehaviour {
         }
         if (collider.CompareTag("Player") == true)
         {
+            rigidBody.isKinematic = false;
             rigidBody.AddForce(Vector3.up * 750f, ForceMode.Acceleration);
             GameManager.gameWon = true;
         }
