@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-    private float health = 60f;
+    public float health = 20f;  // public for testing as bullet velocity may need optimising
+
     private GameManager gameManager;
 
     private void Start( )
@@ -21,7 +22,7 @@ public class Enemy : MonoBehaviour {
         }
 	}
 
-    void OnTriggerEnter2D(Collider2D collider)
+    void OnTriggerEnter(Collider collider)
     {
         if (collider.CompareTag("Laser"))
         {

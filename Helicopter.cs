@@ -11,6 +11,7 @@ public class Helicopter : MonoBehaviour {
     private Transform destinationTransform;
     private bool arrived = false;
     private GameManager gameManager;
+    private bool still = false;
 
     // Use this for initialization
     void Start ()
@@ -27,9 +28,10 @@ public class Helicopter : MonoBehaviour {
             {
                 rigidBody.velocity = new Vector3(0, 0, 0);
                 rigidBody.AddForce(Vector3.down*750f, ForceMode.Acceleration);
-                if (transform.position.y <= 55)
+                if ((transform.position.y <= 57f) && (still == false))
                 {
                     rigidBody.isKinematic = true;
+                    still = true;
                 }
             }
         }
@@ -58,15 +60,13 @@ public class Helicopter : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag("LandingArea") == true)
+        if ((collider.CompareTag("LandingArea") == true) && (arrived==false))
         {
             arrived = true;
-        }
-        if (collider.CompareTag("Player") == true)
+        } else
+        if (collider.CompareTag("Laser") == true)
         {
-            rigidBody.isKinematic = false;
-            rigidBody.AddForce(Vector3.up * 750f, ForceMode.Acceleration);
-            GameManager.gameWon = true;
+            gameManager.gameWon = true;
         }
     }
 }

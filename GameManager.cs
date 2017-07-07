@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    public static bool gameWon = false;
+    public Scores scores;
+    public bool gameWon = false;
     public static bool gameLost = false;
     public Player player;
     public float killCount;         // Written in Enemy.Update() on enemy death
@@ -14,13 +15,15 @@ public class GameManager : MonoBehaviour {
     public float killScore;
     public float healthScore;
     public float score;
-	
-	// Update is called once per frame
-	void Update () {
-        if (gameWon == true)
+
+    private bool set = false;
+
+    void Update () {
+        if ((gameWon == true) && (set == false))
         {
-            // You Won/Timer flashes
-            // Call ScoreScreenLoad once
+            GameWonScore( );
+            scores.SetScore( );
+            set = true;
         }
 
         if (gameLost == true)
@@ -29,7 +32,7 @@ public class GameManager : MonoBehaviour {
         }
 	}
 
-    void GameWonScore( )
+   public void GameWonScore( )
     {
         float timeUntilCall = timeHeliCalled - timeOfLatestSpawn;
 

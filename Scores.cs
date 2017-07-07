@@ -17,15 +17,17 @@ public class Scores : MonoBehaviour {
 	
 	void Update ()
     {
-        if (GameManager.gameWon==true)
+        if (gameManager.gameWon==true)
         {
             SetScore( );
         }
 	}
 
-    void SetScore( )
+    public void SetScore( )
     {
         gameObject.SetActive(true);
+        this.gameObject.SetActive(true);
         scoreText.text = gameManager.score.ToString( );
+        print("Score set");
     }
 }
